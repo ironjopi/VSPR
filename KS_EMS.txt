@@ -1,0 +1,114 @@
+PETLJE
+
+foreach ($Mailbox in $Mailboxes)
+{
+	$Mailbox | Set-Mailbox}
+
+if ($User.Office -eq “London”) 
+{
+	Enable-Mailbox $User –Database “London Database 1”}
+
+
+while ($i -le 5)
+ {New-MailboxDatabase –Server LON-EX1 –Name “DB$i”; $i++}
+
+
+for ($i=1; $i -le 5; $i++) 
+	{New-MailboxDatabase –Server LON-EX1 –Name “DB$i”}
+	
+SORTIRANJE:
+
+Where-Object
+Select-Object [-First] [-Last] [-Unique]
+
+MAILBOX
+
+New-Mailbox
+Enable-Mailbox
+Get-Mailbox
+Set-Mailbox
+Disable-Mailbox
+Remove-Mailbox
+
+DISTRIBUTIONGROUP
+
+New-DistributionGroup
+Enable-DistributionGroup
+Get-DistributionGroup
+Set-DistributionGroup
+Disable-DistributionGroup
+Remove-DistributionGroup
+
+DISTRIBUTIONGROUPMEMBER
+
+Add-DistributionGroupMember
+Remove-DistributionGroupMember
+Update-DistributionGroupMember
+
+MANAGING MAILBOX DATABASES
+Get-MailboxDatabase | Set-MailboxDatabase –ProhibitSendQuota 5GB
+
+MANAGING MAIL FLOW
+Get-RemoteDomain | ForEach-Object {New-SendConnector–Internet –Name $($_.Name) –AddressSpaces $($_.DomainName)}
+
+MANAGING HIGH AVAILABILITY
+Get-MailboxDatabaseCopyStatus –Server SERVER1| ? {$_.Status –eq ‘Mounted’} | Move-ActiveMailboxDatabase –ActivateOnServerSERVER2
+
+MANAGING CLIENT ACCESS
+Get-OwaVirtualDirectory | Set-OwaVirtualDirectory –ExternalUrl https://mail.adatum.com/owa
+
+TESTOVI
+
+•Test-ReplicationHealth
+•Test-OutlookConnectivity
+•Test-ServiceHealth
+•Test-Mailflow
+•Test-SmtpConnectivity
+•Test-WebServicesConnectivity
+
+EXAMPLES:
+
+•Enable-Mailbox -Identity racunarstvo\house
+•New-MailboxExportRequest -Mailbox house–FilePath\\SERVER1\PSTs\house_Mailbox.pst
+•Get-MailboxStatistics -Database MailboxDatabase
+•New-MailboxDatabase -Name MailboxDatabase -Server SERVER1
+•Get-ExchangeServer -Status | Format-List
+•New-DynamicDistributionGroup -Name dynamic-Alias dynamicalias-OrganizationalUnitUsers-IncludedRecipients MailboxUsers
+•New-MoveRequest -Identity house-TargetDatabaseguzde
+
+
+Get-Command *mailbox*
+• Get-Mailbox Username| Format-List alias,*quota
+• Enable-MailContact-Identity "GregoryHouse" -Alias Username-ExternalEmailAddresshouse@racunarstvo.edu
+• Get-MailboxStatistics-Server SERVER1
+• Get-Recipient -RecipientTypeUserMailbox
+• New-MailboxDatabase-Name Guzde-Server SERVER1
+• Get-Mailbox| SelectName,Alias,Database,ServerName| Export-CsvC:\report.txt
+• Get-Mailbox| Where-Object{ ($_.Database-eq'Guzde') -and($_.OrganizationalUnit-like'*Users') } | SelectName,Alias,Database,ServerName| Export-CsvC:\Report-XXX.csv | notepadC:\Report-XXX.csv
+
+• Get-Mailbox"house" | Move-Mailbox–TargetDatabase"Guzde" (-ValidateOnly)
+• New-DistributionGroup-Name 'Managers' -Type 'Distribution' -OrganizationalUnit'Contoso.com/Users' -SamAccountName'Managers' -Alias 'Managers'
+• Get-MailboxStatistics| SelectDisplayName, ItemCount| SortItemCount| ConvertTo-HTML –PropertyDisplayName, ItemCount> C:\temp\report.htm
+• Get-MailboxStatistics| selectDisplayName, TotalItemSize| Export-CSV C:\Temp\Report1.csv
+• Set-DistributionGroup-Identitynekagrupa-GrantSendOnBehalfTodomena\korisnik
+• Get-MessageTrackingLog-Recipientskorisnik@domena-Start "3/8/2016 8:00:00 AM" -End"3/9/2016 2:00:00 PM"
+• Get-MessageTrackingLog-Recipientskorisnik1@domena,korisnik2@domena -Start "3/8/2016 8:00:00 AM" -End"3/9/2016 2:00:00 PM"
+• Get-MessageTrackingLog-Start "10/11/2016 9:00:00" -End"10/13/2016 11:30:00" -Sender"korisnik@domena“
+
+TRANSCRIPT
+
+• Start-Transcriptc:\log1.txt
+• Stop-Transcript
+
+GET EXAMPLES
+
+• Get-Queue
+• Views the status of the transport queues
+• Get-Message
+• Views messagesin a transport queue
+• Get-MailboxDatabaseCopyStatus
+• Views the status of database copies in a database availability group
+• Get-EventLog
+• Views eventsin a specified event log
+
+

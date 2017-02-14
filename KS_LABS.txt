@@ -1,0 +1,156 @@
+							LAB 1
+
+1. Unutar lijevog okna kliknite na stavku PRIMATELJI.
+2. Unutar desnog okna se prikazuje popis postojeæih korisnika. Uoèite kako je Entadmin veæ na popisu.
+3. Kliknite na gumb Dodaj (ikona plusa) i iz izbornika izaberite opciju Korisnièki poštanskisanduèiæ.
+4. Prikazuje se prozor Korisnièki poštanski sanduèiæ.
+
+Poštanski sanduèiæ se korisniku može izraditi na dva naèina. Prvi naèin je odabir postojeæeg korisnika iz
+Active Directory baze a drugi je izrada novog korisnika. Isprobajmo oba naèina:
+
+1. Kliknite gumb Pregledaj.
+2. Prikazuje se prozor Odabir korisnika. Oznaèite korisnika Marko Tomiæ i kliknite gumb U redu.
+3. Vraæate se na prozor Korisnièki poštanski sanduèiæ. Kliknite gumb Spremi.
+Izradimo sada novog korisnika:
+1. Kliknite na gumb Dodaj (ikona plusa) i iz izbornika izaberite opciju Korisnièki poštanski sanduèiæ.
+2. Prikazuje se prozor Korisnièki poštanski sanduèiæ.
+3. Oznaèite opciju Novi korisnik i popunite podatke:
+
+	a. Prezime: Tomas
+	b. Ime: Matija
+	c. Organizacijska jedinica: kliknite gumb Pregledaj, na novom prozoru oznaèite organizacijsku jedinicu Korisnici i kliknite gumb U redu.
+	d. Korisnièko ime za prijavu: matija.tomas
+	e. Nova lozinka: Pa$$w0rd
+	f. Potvrda lozinke: Pa$$w0rd
+	
+4. Kliknite gumb Spremi.
+5. Vraæate se na ekran Poštanski sanduèiæi. Uoèite kako sada prikazuje tri korisnika.
+6. Odjavite se iz Exchange Administrative Center konzole.
+7. Ne zatvarajte Internet Explorer!
+
+Kroz Exchange Administrative Center konzolu smo napravili unos u Active Directory bazu.
+Provjerimo postoji li razlika izmeðu tako stvorenih korisnika i onih izraðenih kroz Active Directory Users and Computers konzolu:
+
+1. Prebacite se na raèunalo SERVERDC.
+2. Prijavite se na raèunalo SERVERDC kao RACUNARSTVO\Entadmin koristeæi lozinku Pa$$w0rd
+3. Prikažite ekran Start i kliknite na stavku Active Directory Users and Computers.
+4. Prikazuje se konzola Active Directory Users and Computers.
+5. Unutar lijevog okna proširite domenu racunarstvo.edu i oznaèite organizacijsku jedinicu Korisnici.
+6. Sadržaj organizacijske jedinice se prikazuje unutar desnog okna.
+7. Zatvorite sve prikazane prozore na raèunalu SERVERDC.
+
+Exchange Administrative Center - WEB sucelje za administraciju
+
+1. Unutar lijevog okna kliknite na stavku Recipients.
+2. Unutar desnog okna kliknite na gumb New (ikona plusa) i iz izbornika izaberite opciju User Mailbox.
+3. Prikazuje se prozor User Mailbox. Kliknite gumb Browse.
+4. Prikazuje se prozor Select User – Entire Forest. Na popisu oznaèite osobu Ivan Joviæ i kliknite gumb OK.
+5. Vraæate se na ekran User Mailbox. Kliknite gumb Save.
+6. Vraæate se u konzolu Exchange Administrative Center.
+
+Sljedeæi objekt koji æemo izraditi je grupa. Postupak je vrlo jednostavan:
+
+1. Unutar desnog okna kliknite na stavku groups (na horizontalnoj traci konzole).
+2. Unutar desnog okna kliknite na gumb New (ikona plusa) i iz izbornika izaberite opciju Distribution Group.
+3. Prikazuje se prozor Distribution Group. Popunite podatke:
+
+a. Display name: NoviKorisnici
+b. Alias: Novi
+c. Organizational unit: kliknite gumb Browse i na novom prozoru odaberite organizacijsku jedinicu Korisnici.
+d. Members: kliknite na gumb Add i na novom prozoru odaberite sve korisnike.
+4. Kliknite gumb Save.
+5. Vraæate se u konzolu Exchange Administrative Center. Odjavite se iz nje (ne s raèunala!).
+6. Minimizirajte Internet Explorer.
+
+Get-Mailbox –Identity marko.tomic - provjera
+Enable-Mailbox –Identity tanja.gork
+Get-Mailbox –Identity tanja.gork
+Disable-Mailbox –Identity tanja.gork
+Install-WindowsFeature RSAT-AD-PowerShell
+Import-Module activedirectory
+Get-ADUser –Filter *
+Get-ADUser – Filter * -SearchBase „OU=Prodaja,DC=ks,DC=edu“
+Get-ADUser –Filter * -SearchBase „OU=Prodaja,DC=ks,DC=edu“ | Select-Object –Property SamAccountName
+$Prodaja=Get-ADUser –Filter * -SearchBase „OU=Prodaja,DC=ks,DC=edu“ | Select-Object –Property SamAccountName
+
+foreach($username in $Prodaja)
+{
+Enable-Mailbox –Identity $username.SamAccountName
+}
+
+Set-Mailbox –Identity marko.tomic –IssueWarningQuota 500mb –ProhibitSendQuota 1gb –ProhibitSendRecieveQuota 1500mb
+
+Get-Mailbox | Set-Mailbox –IssueWarningQuota 500mb –ProhibitSendQuota 600mb
+
+Get-Mailbox | Set-Mailbox –IssueWarningQuota 500mb –ProhibitSendQuota 600mb –UseDatabaseQuoutaDefaults $false
+
+
+											LAB 3
+
+1. Unutar lijevog okna kliknite na stavku Recipients.
+2. Unutar desnog okna kliknite na korisnicu Ines Horvat.
+3. U krajnje desnom oknu se prikazuju postavke za korisnicu. U kategoriji Email Connectivity kliknite na opciju View Details.
+4. Prikazuje se prozor Outlook Web App mailbox policy. Kliknite gumb Browse.
+5. Prikazuje se prozor za odabir postavki. Oznaèite stavku ProdajaPostavke i kliknite gumb OK.
+6. Vraæate se na prozor Outlook Web App mailbox policy. Kliknite gumb Save.
+7. Vraæate se u konzolu Exchange Administrative Center.
+
+Korisnici smo onemoguæili promjenu lozinke putem Outlook Web Appa. Provjerimo kako se promjena odražava:
+Napomena: Ako neki od traženih korisnika ne postoji, napravite ih kroz Exchange Admin Center.
+
+1. Vratite se na CLI.
+2. Prijavite se na raèunalo CLI kao KS\admin1 koristeæi lozinku Pa$$w0rd
+3. Povežite se na OWA-u korištenjem linka na desktopu.
+4. Upišite adresu https://ex.ks.edu/owa
+5. Prikazuje se ekran s informacijom o neispravnom certifikatu. Kliknite opciju Continue to this website (not recommended).
+6. Prikazuje se ekran Outlook Web App. Prijavite se kao korisnik KS\tanja.gork koristeæi lozinku Pa$$w0rd.
+7. Prikazuje se ekran s postavkama jezika i vremenske zone. Izaberite hrvatske regionalne postavke, vremensku zonu UTC+1 i kliknite gumb Spremi.
+8. Prikazuje se Outlook Web App ekran.
+9. U gornjem desnom kut kliknite na gumb Postavke (ikona zupèanika) i iz izbornika izaberite opciju Moguænosti.
+10. Prikazuje se ekran Moguænosti. Uoèite kako je u desnom dijelu ekrana prisutna opc
+
+Update-Help -SourcePath E:\PShelp
+
+Get-CASMailbox
+Get-CASMailbox -OrganizationalUnit „Prodaja“
+
+Get-CASMailbox -OrganizationalUnit „Prodaja“ | Set-CASMailbox -OWAMailboxPolicy „ProdajaPostavke“
+mkdir C:\Policy
+
+Get-OWAMailboxPolicy | Out-File C:\Policy\postavke.txt  [SignaturesEnabled] - treba biti true
+Invoke-Item $$
+
+Set-OWAMailboxPolicy -Identity ProdajaPostavke -SignaturesEnabled $false
+
+Get-OWAMailbox -Identity ProdajaPostavke | Out-File C:\Policy\Postavke2.txt
+
+ii $$
+
+$DC=New-PSSession -ComputerName DC
+Get-Module -PSSession $DC -ListAvailable
+Import-Module -PSSession $DC -Name ActiveDirectory
+Get-ADComputer -Filter * | Select-Object -Property name
+Get-PSSession
+Remove-PSSesion -ID XX
+Remove-Variable $DC
+
+			Rad s drugim raèunalima
+
+1. Upišite naredbu $DC=New-PSSession -ComputerName DC Nova sesija je stvorena i pohranjena u varijablu. Pogledajmo koji su moduli dostupni unutar te sesije:
+2. Upišite naredbu Get-Module -PSSession $DC -ListAvailable
+
+Uoèite kako je dostupan Active Directory PowerShell modul što je oèekivano s obzirom da je raèunalo
+DC domenski kontroler. Sada je vrijeme da taj modul uèitamo (naglasimo još jednom – neinstaliramo) na raèunalo EX:
+
+3. Upišite naredbu Import-Module -PSSession $DC -Name ActiveDirectory
+4. Prièekajte uèitavanje modula
+
+Isprobajmo je li modul spreman za rad pomoæu jednostavne naredbe koja æe ispisati atribut ime (engl. Name) za sva raèunala u KS.edu domeni:
+5. Upišite naredbu Get-ADComputer -Filter * | Select-Object -Property name
+
+Naredba je ispisala sva raèunala u domeni. Za kraj ove cjeline zatvorimo sesiju i obrišimo korištenu varijablu:
+
+6. Upišite naredbu Get-PSSession
+7. Ispisuju se sve pokrenute sesije. Uoèite ID sesije s raèunalom DC.
+8. Upišite naredbu Remove-PSSesion -ID XX (gdje je XX broj sesije iz prethodnog koraka)
+9. Upišite naredbu Remove-Variable $DC
