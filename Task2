@@ -1,0 +1,11 @@
+import csv # nemoj zaboraviti dodati CSV :)
+
+path = 'D:/Datasets/Loan amount.csv'
+#path = input()
+
+with open(path, 'r') as csvFile: # Otvaranje fajla, with ti znači kako će na kraju bloka python zatvoriti datoteku
+    reader = csv.reader(csvFile) # učitavanje fajla
+    for row in reader: # za svaki pročitani redak....
+        print(row)
+
+csvFile.close()
