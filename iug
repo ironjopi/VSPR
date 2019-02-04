@@ -1,0 +1,35 @@
+import tkinter
+#from tkinter import *
+#from tkinter import messagebox
+import random
+
+
+def isfloat(n):
+    try:
+        value = float(n)
+        return True
+    except:
+        return False
+    
+def check_input():
+    input_value = input_box.get()
+    if (input_value.isdigit()):
+       boxlabel.config(text = 'Integer')
+
+    elif (isfloat(input_value)):
+        boxlabel.config(text = 'Float')
+        
+    else:
+        boxlabel.config(text = 'string')   
+    
+top = Tk()
+top.geometry("150x150")
+
+input_box = Entry(top)
+boxlabel = Label(top)
+button_check = tkinter.Button(top, text ="Check input", command = check_input)
+       
+input_box.place(x = 10,y = 10)
+button_check.place(x = 10,y = 50)
+boxlabel.place(x =10, y=80)
+top.mainloop()
