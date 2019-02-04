@@ -1,0 +1,11 @@
+# TASK 3 - Palindrom
+
+user = input ('Enter text to check is it Palindrom: ')
+
+my_string = user.lower().replace(' ','')
+rev_string = reversed(my_string)
+
+if list(my_string) == list(rev_string):
+    print ('Palindrom!')
+else:
+    print ('Not Palindrom!')
