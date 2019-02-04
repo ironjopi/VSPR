@@ -1,0 +1,15 @@
+# TASK 3 Get all extention from user
+import os
+
+user = input ('Enter extention: ')
+
+
+path = "c:/Users/Josip/Desktop"
+
+extentions = os.listdir(path)
+
+
+
+for ext in extentions:
+    if (ext.endswith(user)):
+        print (ext)
