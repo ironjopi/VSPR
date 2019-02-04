@@ -1,0 +1,29 @@
+# TASK 1 - Check IP input is IP address!
+
+
+user = input ('Enter IP address: ') #enable user to enter IP address
+
+octets = user.split('.') # set delimter (.)
+valid = True # set check variable
+
+if (len (octets))!=4: # check format of IP address, must be 4 octets
+    valid = False
+  
+
+
+for octet in octets:
+    if (octet.isdigit()): # check if IP is number value
+        if (int(octet) > 255): # check if IP exceed 255
+            valid = False # return false
+    else:
+        valid = False # in any of this statemant is true return false
+
+#Last statement for printing desired output
+if (valid):
+    print ('Valid IP address!')
+else:
+    print('Invalid IP address!')
+    
+
+
+
